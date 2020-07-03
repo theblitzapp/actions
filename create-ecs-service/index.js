@@ -1,15 +1,52 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
-} catch (error) {
-  core.setFailed(error.message);
+
+async function createService(ecs, {
+    cluster,
+    serviceName,
+    taskDefinition,    
+    ...rest
+}){
+    const params = {
+        serviceName, 
+        taskDefinition,       
+        cluster,
+        ...rest
+    }
+    const response = await ecs.createService(params).promise();
+    const {service} = response;
+    core.info(`Service ${serviceName} is created in cluster ${cluster} with status ${service.status}`);
+    return service;
+}
+
+async function run(){
+    const ecs = new aws.ECS({
+        customUserAgent: 'amazon-ecs-deploy-task-definition-for-github-actions'
+    });
+    const cluster = core.getInput("cluster");
+    const serviceName = core.getInput("serviceName");
+    const taskDefinition = core.getInput("taskDefinition");
+    
+    try{
+      await createService(ecs,{
+        cluster,
+        serviceName,
+        taskDefinition,
+        desiredCount: 1,
+        "deploymentConfiguration": { 
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 50
+         },
+    });   
+    }catch(error){
+      core.setFailed(error)
+    }
+}
+
+module.exports = run;
+
+/* istanbul ignore next */
+if (require.main === module) {
+  run();
 }
