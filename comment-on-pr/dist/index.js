@@ -35,17 +35,13 @@ module.exports =
 /******/ 	}
 /******/
 /******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
 /******/ 	__webpack_require__.ab = __dirname + "/";
 /******/
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(__webpack_require__.s = 622);
+/******/ 		return __webpack_require__(622);
 /******/ 	};
-/******/ 	// initialize runtime
-/******/ 	runtime(__webpack_require__);
 /******/
 /******/ 	// run startup
 /******/ 	return startup();
@@ -4447,32 +4443,26 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 622:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __unusedexports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(827);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(148);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
-/* module decorator */ module = __webpack_require__.hmd(module);
-
+const core = __webpack_require__(827);
+const github = __webpack_require__(148)
 
 
 async function run(){
   try {
 
     // Get input parameters.
-    const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('token')
-    const body = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('body')
-    const prNumber = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pr-number')
-    const repository = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("repository")
+    const token = core.getInput('token')
+    const body = core.getInput('body')
+    const prNumber = core.getInput('pr-number')
+    const repository = core.getInput("repository")
     
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(`body: ${body}`)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(`prNumber: ${prNumber}`)
+    core.debug(`body: ${body}`)
+    core.debug(`prNumber: ${prNumber}`)
 
     // Create a GitHub client.
-    const client = new _actions_github__WEBPACK_IMPORTED_MODULE_1__.GitHub(token)
+    const client = new github.GitHub(token)
 
     // Get owner and repo from
     const [owner, repo] = repository.split("/");
@@ -4487,17 +4477,17 @@ async function run(){
       issue_number: prNumber,
       body
     })
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(`created comment URL: ${response.data.html_url}`)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('comment-url', response.data.html_url)
+    core.debug(`created comment URL: ${response.data.html_url}`)
+    core.setOutput('comment-url', response.data.html_url)
   } catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message)
+    core.setFailed(error.message)
   }
 }
 
 module.exports = run;
 
 /* istanbul ignore next */
-if (__webpack_require__.c[__webpack_require__.s] === module) {
+if (require.main === require.cache[eval('__filename')]) {
     run();
 }
 
@@ -9484,66 +9474,4 @@ exports.debug = debug; // for test
 
 /***/ })
 
-/******/ },
-/******/ function(__webpack_require__) { // webpackRuntimeModules
-/******/ 	"use strict";
-/******/ 
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				function getDefault() { return module['default']; } :
-/******/ 				function getModuleExports() { return module; };
-/******/ 			__webpack_require__.d(getter, 'a', getter);
-/******/ 			return getter;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	!function() {
-/******/ 		__webpack_require__.hmd = function(module) {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'loaded', {
-/******/ 				enumerable: true,
-/******/ 				get: function () { return module.l; }
-/******/ 			});
-/******/ 			Object.defineProperty(module, 'id', {
-/******/ 				enumerable: true,
-/******/ 				get: function () { return module.i; }
-/******/ 			});
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: function () {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getter */
-/******/ 	!function() {
-/******/ 		// define getter function for harmony exports
-/******/ 		var hasOwnProperty = Object.prototype.hasOwnProperty;
-/******/ 		__webpack_require__.d = function(exports, name, getter) {
-/******/ 			if(!hasOwnProperty.call(exports, name)) {
-/******/ 				Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 			}
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ }
-);
+/******/ });
