@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
-export async function run(){
+async function run(){
   try {
 
     // Get input parameters.
@@ -34,4 +34,11 @@ export async function run(){
   } catch (error) {
     core.setFailed(error.message)
   }
+}
+
+module.exports = run;
+
+/* istanbul ignore next */
+if (require.main === module) {
+    run();
 }
