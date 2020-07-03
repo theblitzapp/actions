@@ -1,5 +1,5 @@
-name: 'Create a Blitz PR service if needed'
-description: 'It creates a Blitz PR service in a cluster if it has not been created'
+name: 'Create an AWS service if needed'
+description: 'It creates an AWS service in a cluster if it has not been created'
 inputs:
   ecs-cluster-name : 
     description: cluster
