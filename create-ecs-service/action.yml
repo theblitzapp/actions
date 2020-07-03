@@ -1,13 +1,15 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Create a Blitz PR service if needed'
+description: 'It creates a Blitz PR service in a cluster if it has not been created'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  ecs-cluster-name : 
+    description: cluster
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  ecs-service-name : 
+    description: serviceName
+    required: true
+  ecs-task-definition-name : 
+    description: taskDefinition
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

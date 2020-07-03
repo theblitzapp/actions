@@ -4461,6 +4461,19 @@ async function createService(ecs, {
         cluster,
         ...rest
     }
+    try{
+      const {services} = await ecs.describeServices({
+          cluster,
+          services: [serviceName]
+      }).promise();
+      if(services.length){
+          core.info(`Service ${serviceName} already exists in ${cluster}`)
+          core.info(`Not creating a new service`);
+          return;
+      }
+    }catch(error){
+        console.log(error);
+    }
     const response = await ecs.createService(params).promise();
     const {service} = response;
     core.info(`Service ${serviceName} is created in cluster ${cluster} with status ${service.status}`);
@@ -4471,9 +4484,9 @@ async function run(){
     const ecs = new aws.ECS({
         customUserAgent: 'amazon-ecs-deploy-task-definition-for-github-actions'
     });
-    const cluster = core.getInput("cluster");
-    const serviceName = core.getInput("serviceName");
-    const taskDefinition = core.getInput("taskDefinition");
+    const cluster = core.getInput("ecs-cluster-name");
+    const serviceName = core.getInput("ecs-service-name");
+    const taskDefinition = core.getInput("ecs-task-definition-name");
     
     try{
       await createService(ecs,{
