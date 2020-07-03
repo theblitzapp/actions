@@ -15,15 +15,14 @@ async function run(){
     core.debug(`prNumber: ${prNumber}`)
 
     // Create a GitHub client.
-    const client = new github.GitHub(token)
+    const octokit = new github.getOctokit(token)
 
     // Get owner and repo from
     const [owner, repo] = repository.split("/");
 
-
     // Create a comment on PR
     // https://octokit.github.io/rest.js/#octokit-routes-issues-create-comment
-    const response = await client.issues.createComment({
+    const response = await octokit.issues.createComment({
       owner,
       repo,
       // eslint-disable-next-line @typescript-eslint/camelcase
