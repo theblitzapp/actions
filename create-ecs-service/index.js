@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const aws = require('aws-sdk');
 
 
 async function createService(ecs, {
