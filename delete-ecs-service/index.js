@@ -17,6 +17,7 @@ async function deleteService(ecs, {cluster, service}){
         service,
         cluster
     }).promise();
+    core.info(`Service ${service} is deleted in cluster ${cluster}`);
     return response;
 }
 
@@ -31,7 +32,6 @@ async function run(){
             cluster,
             service: serviceName
         });
-        core.info(`Service ${service} is deleted in cluster ${cluster}`);
     }  catch(error){
         core.setFailed(error);
         core.info(error);
